@@ -70,29 +70,35 @@ var schoolLogo;
 
 
 function initMap() {
+    var sanJose = {lat: 37.336079, lng: -121.880454}
     var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 14,
-    center: {lat: 37.336079, lng: -121.880454},
-    disableDefaultUI: true,
-    zoomControl: false,
-    <!-- "Since it's false, next line doesn't matter" -->
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    },
+      zoom: 14,
+      center: sanJose,
+      disableDefaultUI: true,
+      zoomControl: false,
+      <!-- "Since it's false, next line doesn't matter" -->
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+      }
      });
 
-  <!--"getSchools(map, schools);"-->
-  var centerControlDiv = document.createElement('div');
-  var hamDiv = document.createElement('button');
-  hamDiv.className ="drawer-toggle";
+    <!--This initiate the marker to point on current location, set to SJ -->
+    var marker = new google.maps.Marker({
+      position: sanJose,
+      map: map
+    });
 
+    <!--"getSchools(map, schools);"-->
+    var centerControlDiv = document.createElement('div');
+    var hamDiv = document.createElement('button');
+    hamDiv.className ="drawer-toggle";
 
-  var centerControl = new CenterControl(centerControlDiv, map);
+   var centerControl = new CenterControl(centerControlDiv, map);
 
- centerControlDiv.index = 1;
- centerControlDiv.style['padding-top'] = '10px';
- centerControlDiv.style['padding-left'] = '20px';
- centerControlDiv.appendChild(hamDiv);
+   centerControlDiv.index = 1;
+   centerControlDiv.style['padding-top'] = '10px';
+   centerControlDiv.style['padding-left'] = '20px';
+   centerControlDiv.appendChild(hamDiv);
    map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
 }
 
@@ -240,7 +246,7 @@ if( milesRadius == 1){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
     }
  if( milesRadius == 2){
@@ -251,7 +257,7 @@ if( milesRadius == 1){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
   }
  if( milesRadius == 5){
@@ -262,7 +268,7 @@ if( milesRadius == 1){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
  } 
 
@@ -446,7 +452,7 @@ function processUserInput(){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
   
   var marker = new google.maps.Marker({
@@ -473,7 +479,7 @@ function processUserInput(){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
   var marker = new google.maps.Marker({
             position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
@@ -499,7 +505,7 @@ function processUserInput(){
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.LEFT_CENTER
-    },
+    }
      });
   var marker = new google.maps.Marker({
             position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
