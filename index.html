@@ -6,7 +6,7 @@
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     
-    <script src="Resources/jquery-2.1.4.min.js"></script>
+    <script src="javascript/jquery-2.1.4.min.js"></script>
     <!-- drawer.css -->
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -16,531 +16,526 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.1/js/drawer.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.1.3/iscroll.min.js"></script>
-     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
   </head>
 
   <body class="drawer drawer--left">
-  	
-	  
+
+
   	<!--<button type="button" class="drawer-toggle">Drawer toggle</button> -->
     <div id="map" class="effect"></div>
  		<header role="banner">
-  	<button type="button" class="drawer-toggle drawer-hamburger">
-      <span class="sr-only">toggle navigation</span>
-      <span class="drawer-hamburger-icon"></span>
-    </button>
-    <nav class="drawer-nav" role="navigation">
-      <ul class="drawer-menu">
-        <li><a class="drawer-brand" href="#">Brand</a></li>
-        <li><a class="drawer-menu-item" href="#">Nav1</a></li>
-        <li><a class="drawer-menu-item" href="#">Nav2</a></li>
-      </ul>
-    </nav>	
+      <div>
+        <button type="button" class="drawer-toggle drawer-hamburger">
+          <span class="sr-only">toggle navigation</span>
+          <span class="drawer-hamburger-icon"></span>
+        </button>
+        <nav class="drawer-nav" role="navigation">
+          <ul class="drawer-menu">
+            <li><a class="drawer-brand" href="#">Brand</a></li>
+            <li><a class="drawer-menu-item" href="#">Nav1</a></li>
+            <li><a class="drawer-menu-item" href="#">Nav2</a></li>
+          </ul>
+        </nav>
+      </div>
   	</header>
+    <div id="SearchBar" tabindex="1" style="padding-top: 10px; padding-left: 20px" title='Click to recenter the map'>
+      <div class="control-border">
+        <input class="control-text" placeholder="Search for Food"/>
 
-<script type='text/javascript'>
+      </div>
 
-$(document).ready(function() {
-  $('.drawer').drawer();
-});
-
-$('.drawer').drawer({
-  class: {
-    nav: 'drawer-nav',
-    toggle: 'drawer-toggle',
-    overlay: 'drawer-overlay',
-    open: 'drawer-open',
-    close: 'drawer-close',
-    dropdown: 'drawer-dropdown'
-  },
-  iscroll: {
-    // Configuring the iScroll
-    // https://github.com/cubiq/iscroll#configuring-the-iscroll
-    mouseWheel: true,
-    preventDefault: false
-  },
-  showOverlay: true
-}); 
+    </div>
 
 
-var schools = [];
-var restaurants = [];
-var schoolLocation;
-var schoolLogo;
+    <script type='text/javascript'>
+
+  $(document).ready(function() {
+    $('.drawer').drawer();
+  });
+
+//  $('.drawer').drawer({
+//    class: {
+//      nav: 'drawer-nav',
+//      toggle: 'drawer-toggle',
+//      overlay: 'drawer-overlay',
+//      open: 'drawer-open',
+//      close: 'drawer-close',
+//      dropdown: 'drawer-dropdown'
+//    },
+//    iscroll: {
+//      // Configuring the iScroll
+//      // https://github.com/cubiq/iscroll#configuring-the-iscroll
+//      mouseWheel: true,
+//      preventDefault: false
+//    },
+//    showOverlay: true
+//  });
 
 
-function initMap() {
-    var sanJose = {lat: 37.336079, lng: -121.880454}
-    var map = new google.maps.Map(document.getElementById('map'), {
+  var schools = [];
+  var restaurants = [];
+  var schoolLocation;
+  var schoolLogo;
+
+
+  function initMap() {
+      var sanJose = {lat: 37.336079, lng: -121.880454}
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: sanJose,
+        disableDefaultUI: true,
+        zoomControl: false,
+        <!-- "Since it's false, next line doesn't matter" -->
+        zoomControlOptions: {
+            position: google.maps.ControlPosition.LEFT_CENTER
+        }
+       });
+
+      <!--This initiate the marker to point on current location, set to SJ -->
+      var marker = new google.maps.Marker({
+        position: sanJose,
+        map: map
+      });
+
+      <!--"getSchools(map, schools);"-->
+      var centerControlDiv = document.getElementById("SearchBar");
+//      var hamDiv = document.createElement('button');
+//      hamDiv.className ="drawer-toggle";
+//
+//     var centerControl = new CenterControl(centerControlDiv);
+//
+//     centerControlDiv.index = 1;
+//     centerControlDiv.style['padding-top'] = '10px';
+//     centerControlDiv.style['padding-left'] = '20px';
+//     centerControlDiv.appendChild(hamDiv);
+     map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
+  }
+
+
+  //To move to the style.css
+//  function CenterControl(controlDiv) {
+//
+//    // Set CSS for the control border.
+//    var controlUI = document.createElement('div');
+//    controlUI.style.backgroundColor = '#fff';
+//    controlUI.style.border = '2px solid #fff';
+//    controlUI.style.borderRadius = '3px';
+//    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+//    controlUI.style.cursor = 'pointer';
+//    controlUI.style.marginBottom = '22px';
+//    controlUI.style.textAlign = 'center';
+//    controlUI.title = 'Click to recenter the map';
+//    controlDiv.appendChild(controlUI);
+//
+//    // Set CSS for the control interior.
+//    var controlText = document.createElement('input');
+//    controlText.style.color = 'rgb(25,25,25)';
+//    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+//    controlText.style.fontSize = '15px';
+//    controlText.style.lineHeight = '38px';
+//    controlText.style.paddingLeft = '5px';
+//    controlText.style.paddingRight = '5px';
+//    controlText.style.height = "30";
+//    controlText.size = "30";
+//    controlText.placeholder = 'Search for Food';
+//    controlUI.appendChild(controlText);
+//  }
+
+  //REST OF THESE FUNCTIONS ARE JUST HERE AS A REFERENCE TO WORKING WITH MAP API
+  function getSchools(map, schools){
+    $.ajax({
+              type: "GET",
+              url : "school.php",
+              success: function(data){
+                handleSchoolData(data);
+              },
+              complete: function(){
+                setMarkers(map, schools);
+              }
+    });
+  }
+
+  function handleSchoolData(data){
+
+    schoolJsonArray = $.parseJSON(data);
+    for ( var i = 0 ; i < schoolJsonArray.length ; i++ ){
+        schools.push(schoolJsonArray[i]);
+     }
+  }
+
+  function setMarkers(map) {
+
+       schoolLogo = 'Resources/education-logo.png';
+       var infoWindow = new google.maps.InfoWindow();
+
+        google.maps.event.addListener(infoWindow, 'domready', function() {
+        document.getElementById("map-form").addEventListener("submit", function(e) {
+
+          e.preventDefault();
+          milesRadius = $('input[name=radius]:checked').val();
+          processRestaurants(milesRadius, schoolLat, schoolLong);
+          //console.log("Latitude : " + schoolLat +"and Longtitude : " + schoolLong);
+        });
+      });
+
+    for (var i = 0 ; i < schools.length; i++) {
+        var school = schools[i];
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(school.lat), lng: parseFloat(school.long) },
+              map: map,
+              icon: schoolLogo,
+              title: school.name
+            });
+          (function (marker, school){
+          google.maps.event.addListener(marker, "click", function(e){
+
+          schoolLat = marker.getPosition().lat();
+          schoolLong = marker.getPosition().lng();
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + school.name + "</b>" + "<br>" + school.street + " " + school.City + ", " + school.state + " " + school.zip +
+              "<hr color=\"green\">" + "<form id=\"map-form\">" +
+              "<label><input type=\"radio\" id=\"one\" name=\"radius\" value=\"1\">1 Mile</label>" +
+              "<br><label><input type=\"radio\" name=\"radius\" value=\"2\">2 Miles</label>" +
+              "<br><label><input type=\"radio\" name=\"radius\" value=\"5\">5 Miles</label> <input type=\"submit\" value=\"Find\" style=\"margin-left: 25% \"></form>" +
+              "<br>" +"</div>");
+
+            infoWindow.open(map, marker);
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function(){ marker.setAnimation(null); }, 2200);
+            map.panTo(map.setCenter(marker.getPosition()));
+          });
+        })(marker, school);
+    }
+  }
+
+  function processRestaurants(milesRadius, schoolLat, schoolLong){
+   $.ajax({
+             type: "POST",
+             url : "restaurant.php",
+             data : { latitude : schoolLat , longitude : schoolLong , radius : milesRadius},
+             success: function(data){
+              processRestaurantData(data);
+            } ,
+            complete: function(){
+              InitRestaurantMap(milesRadius, schoolLat, schoolLong)
+            }
+          });
+  }
+
+  function processRestaurantData(data){
+      restaurants = [];
+      var restaurantJsonArray = $.parseJSON(data);
+      for ( var i = 0 ; i < restaurantJsonArray.length ; i++ ){
+          restaurants.push(restaurantJsonArray[i]);
+      }
+  }
+
+  function InitRestaurantMap(milesRadius, schoolLat, schoolLong){
+
+  if( milesRadius == 1){
+      var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
-      center: sanJose,
+      center: {lat: schoolLat, lng: schoolLong},
       disableDefaultUI: true,
-      zoomControl: false,
-      <!-- "Since it's false, next line doesn't matter" -->
+      zoomControl: true,
       zoomControlOptions: {
           position: google.maps.ControlPosition.LEFT_CENTER
       }
-     });
+       });
+      }
+   if( milesRadius == 2){
+      var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: {lat: schoolLat, lng: schoolLong},
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+      }
+       });
+    }
+   if( milesRadius == 5){
+      var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: {lat: schoolLat, lng: schoolLong},
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+      }
+       });
+   }
 
-    <!--This initiate the marker to point on current location, set to SJ -->
-    var marker = new google.maps.Marker({
-      position: sanJose,
-      map: map
+      var myCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        center: {lat: schoolLat, lng: schoolLong},
+        radius: milesRadius * 1609.344
+      });
+
+      var marker = new google.maps.Marker({
+              position: { lat: schoolLat, lng: schoolLong },
+              map: map,
+              icon: schoolLogo
+            });
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){ marker.setAnimation(null); }, 3000);
+
+      placeRestaurants(map);
+  }
+
+  function placeRestaurants(map){
+
+    var starbuckLogo = 'Resources/StarbucksLogo.png';
+    var McDonaldsLogo = 'Resources/mcdonalds.jpg';
+    var bkLogo = 'Resources/burgerking.png';
+    var WendysLogo = 'Resources/wendys.png';
+    var ArbysLogo = 'Resources/arbys.jpg';
+    var SubwayLogo = 'Resources/subway.jpg';
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    for (var i = 0 ; i < restaurants.length; i++) {
+        var restaurant = restaurants[i];
+        //console.log(restaurant.name);
+        if ( restaurant.name === 'Starbucks'){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: starbuckLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+        }
+
+        if ( (restaurant.name === 'McDonald\'s') || (restaurant.name === 'McDonalds') ){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: McDonaldsLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+        }
+
+        if ( restaurant.name === 'Burger King' ){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: bkLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+        }
+
+        if ( restaurant.name === 'Wendy\'s' ){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: WendysLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+
+        }
+
+        if ( restaurant.name === 'Arby\'s' ){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: ArbysLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+        }
+
+        if ( restaurant.name === 'Subway' ){
+        var marker = new google.maps.Marker({
+              position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
+              map: map,
+              icon: SubwayLogo,
+              title : restaurant.name
+            });
+        (function (marker, restaurant){
+          google.maps.event.addListener(marker, "click", function(e){
+
+           infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
+
+            infoWindow.open(map, marker);
+          });
+        })(marker, restaurant);
+        }
+
+    }
+  }
+
+  function processUserInput(){
+
+    if ( document.getElementById('textField').value == ""){
+      alert("Please Enter a valid address!");
+    }
+    else {
+    var userInputAddress = document.getElementById('textField').value;
+    var googeGeoCodeURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' ;
+    var addressLat;
+    var addressLong;
+
+    $.ajax({
+              type: "GET",
+              url : googeGeoCodeURL + userInputAddress,
+              success: function(data){
+
+                addressLat = data.results[0].geometry.location.lat;
+                addressLong = data.results[0].geometry.location.lng;
+              },
+              complete: function(){
+                placeAddress(addressLat, addressLong);
+              }
     });
 
-    <!--"getSchools(map, schools);"-->
-    var centerControlDiv = document.createElement('div');
-    var hamDiv = document.createElement('button');
-    hamDiv.className ="drawer-toggle";
-
-   var centerControl = new CenterControl(centerControlDiv, map);
-
-   centerControlDiv.index = 1;
-   centerControlDiv.style['padding-top'] = '10px';
-   centerControlDiv.style['padding-left'] = '20px';
-   centerControlDiv.appendChild(hamDiv);
-   map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
-}
-
-
-function CenterControl(controlDiv, map) {
-
-  // Set CSS for the control border.
-  var controlUI = document.createElement('div');
-  controlUI.style.backgroundColor = '#fff';
-  controlUI.style.border = '2px solid #fff';
-  controlUI.style.borderRadius = '3px';
-  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-  controlUI.style.cursor = 'pointer';
-  controlUI.style.marginBottom = '22px';
-  controlUI.style.textAlign = 'center';
-  controlUI.title = 'Click to recenter the map';
-  controlDiv.appendChild(controlUI);
-
-  // Set CSS for the control interior.
-  var controlText = document.createElement('input');
-  controlText.style.color = 'rgb(25,25,25)';
-  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-  controlText.style.fontSize = '15px';
-  controlText.style.lineHeight = '38px';
-  controlText.style.paddingLeft = '5px';
-  controlText.style.paddingRight = '5px';
-  controlText.style.height = "30";
-  controlText.size = "30";
-  controlText.placeholder = 'Search for Food';
-  controlUI.appendChild(controlText);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getSchools(map, schools){
-  $.ajax({
-            type: "GET",
-            url : "school.php",
-            success: function(data){
-              handleSchoolData(data);
-            },
-            complete: function(){
-              setMarkers(map, schools);
-            }
-  });    
-}
-
-function handleSchoolData(data){
-
-  schoolJsonArray = $.parseJSON(data);
-  for ( var i = 0 ; i < schoolJsonArray.length ; i++ ){
-      schools.push(schoolJsonArray[i]);
-   }
-}
-
-function setMarkers(map) {
-
-     schoolLogo = 'Resources/education-logo.png';
-     var infoWindow = new google.maps.InfoWindow();
-     
-      google.maps.event.addListener(infoWindow, 'domready', function() {
-      document.getElementById("map-form").addEventListener("submit", function(e) {
-        
-        e.preventDefault();
-        milesRadius = $('input[name=radius]:checked').val();
-        processRestaurants(milesRadius, schoolLat, schoolLong);
-        //console.log("Latitude : " + schoolLat +"and Longtitude : " + schoolLong);
-      });
-    }); 
-
-  for (var i = 0 ; i < schools.length; i++) {
-      var school = schools[i];
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(school.lat), lng: parseFloat(school.long) },
-            map: map,
-            icon: schoolLogo,
-            title: school.name
-          });
-        (function (marker, school){
-        google.maps.event.addListener(marker, "click", function(e){
-      
-        schoolLat = marker.getPosition().lat();
-        schoolLong = marker.getPosition().lng();
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + school.name + "</b>" + "<br>" + school.street + " " + school.City + ", " + school.state + " " + school.zip + 
-            "<hr color=\"green\">" + "<form id=\"map-form\">" +
-            "<label><input type=\"radio\" id=\"one\" name=\"radius\" value=\"1\">1 Mile</label>" + 
-            "<br><label><input type=\"radio\" name=\"radius\" value=\"2\">2 Miles</label>" + 
-            "<br><label><input type=\"radio\" name=\"radius\" value=\"5\">5 Miles</label> <input type=\"submit\" value=\"Find\" style=\"margin-left: 25% \"></form>" + 
-            "<br>" +"</div>");
-       
-          infoWindow.open(map, marker);
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-          setTimeout(function(){ marker.setAnimation(null); }, 2200);
-          map.panTo(map.setCenter(marker.getPosition()));
-        });
-      })(marker, school);
   }
-}
-
-function processRestaurants(milesRadius, schoolLat, schoolLong){
- $.ajax({
-           type: "POST",
-           url : "restaurant.php",
-           data : { latitude : schoolLat , longitude : schoolLong , radius : milesRadius},
-           success: function(data){
-            processRestaurantData(data);
-          } ,
-          complete: function(){
-            InitRestaurantMap(milesRadius, schoolLat, schoolLong)
-          } 
-        });
-}
-
-function processRestaurantData(data){
-    restaurants = [];
-    var restaurantJsonArray = $.parseJSON(data);
-    for ( var i = 0 ; i < restaurantJsonArray.length ; i++ ){
-        restaurants.push(restaurantJsonArray[i]);
-    }
-}
-
-function InitRestaurantMap(milesRadius, schoolLat, schoolLong){
-
-if( milesRadius == 1){
-    var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 14,
-    center: {lat: schoolLat, lng: schoolLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
-    }
- if( milesRadius == 2){
-    var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: {lat: schoolLat, lng: schoolLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
   }
- if( milesRadius == 5){
+
+   function placeAddress(addressLat, addressLong){
+
+    var addressRadius = $('input[name=optradio]:checked').val();
+
+    if ( addressRadius == 1){
     var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: {lat: schoolLat, lng: schoolLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
- } 
+      zoom: 14,
+      center: {lat: addressLat, lng: addressLong},
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+      }
+       });
+
+    var marker = new google.maps.Marker({
+              position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
+              map: map
+            });
 
     var myCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.5,
-      strokeWeight: 2,
-      fillOpacity: 0,
-      map: map,
-      center: {lat: schoolLat, lng: schoolLong},
-      radius: milesRadius * 1609.344
-    });
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        center: {lat: addressLat, lng: addressLong},
+        radius: addressRadius * 1609.344
+      });
+    }
 
+    if ( addressRadius == 2){
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: {lat: addressLat, lng: addressLong},
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+      }
+       });
     var marker = new google.maps.Marker({
-            position: { lat: schoolLat, lng: schoolLong },
-            map: map,
-            icon: schoolLogo
-          });
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ marker.setAnimation(null); }, 3000);
+              position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
+              map: map
+            });
 
-    placeRestaurants(map);
-}
+    var myCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        center: {lat: addressLat, lng: addressLong},
+        radius: addressRadius * 1609.344
+      });
+    }
 
-function placeRestaurants(map){
-
-  var starbuckLogo = 'Resources/StarbucksLogo.png';
-  var McDonaldsLogo = 'Resources/mcdonalds.jpg';
-  var bkLogo = 'Resources/burgerking.png';
-  var WendysLogo = 'Resources/wendys.png';
-  var ArbysLogo = 'Resources/arbys.jpg';
-  var SubwayLogo = 'Resources/subway.jpg';
-
-  var infoWindow = new google.maps.InfoWindow();
-
-  for (var i = 0 ; i < restaurants.length; i++) {
-      var restaurant = restaurants[i];
-      //console.log(restaurant.name);
-      if ( restaurant.name === 'Starbucks'){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: starbuckLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
+    if ( addressRadius == 5){
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: {lat: addressLat, lng: addressLong},
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
       }
+       });
+    var marker = new google.maps.Marker({
+              position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
+              map: map
+            });
 
-      if ( (restaurant.name === 'McDonald\'s') || (restaurant.name === 'McDonalds') ){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: McDonaldsLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
-      }
+    var myCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        center: {lat: addressLat, lng: addressLong},
+        radius: addressRadius * 1609.344
+      });
+    }
 
-      if ( restaurant.name === 'Burger King' ){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: bkLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
-      }
-
-      if ( restaurant.name === 'Wendy\'s' ){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: WendysLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
-          
-      }
-
-      if ( restaurant.name === 'Arby\'s' ){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: ArbysLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
-      }
-
-      if ( restaurant.name === 'Subway' ){
-      var marker = new google.maps.Marker({
-            position: { lat: parseFloat(restaurant.lat), lng: parseFloat(restaurant.long) },
-            map: map,
-            icon: SubwayLogo,
-            title : restaurant.name
-          });
-      (function (marker, restaurant){
-        google.maps.event.addListener(marker, "click", function(e){
-        
-         infoWindow.setContent("<div name=\"popup\" style = 'width:200px;min-height:60px'>" + "<b>" + restaurant.name + "</b>" + "<br>" + restaurant.street + " " + restaurant.City + ", " + restaurant.state + " " + restaurant.zip + "</div>");
-       
-          infoWindow.open(map, marker);
-        });
-      })(marker, restaurant);
-      }
-
-  }
-}
-
-function processUserInput(){
-
-  if ( document.getElementById('textField').value == ""){
-    alert("Please Enter a valid address!");
-  }
-  else {
-  var userInputAddress = document.getElementById('textField').value;
-  var googeGeoCodeURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' ;
-  var addressLat;
-  var addressLong;
-
-  $.ajax({
-            type: "GET",
-            url : googeGeoCodeURL + userInputAddress,
-            success: function(data){
-
-              addressLat = data.results[0].geometry.location.lat;
-              addressLong = data.results[0].geometry.location.lng;
-            },
-            complete: function(){
-              placeAddress(addressLat, addressLong);
+     $.ajax({
+             type: "POST",
+             url : "restaurant.php",
+             data : { latitude : addressLat , longitude : addressLong , radius : addressRadius},
+             success: function(data){
+              processRestaurantData(data);
+            } ,
+              complete: function(){
+              placeRestaurants(map);
             }
-  });
-
-}
-}
- 
- function placeAddress(addressLat, addressLong){
-
-  var addressRadius = $('input[name=optradio]:checked').val();
-
-  if ( addressRadius == 1){
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 14,
-    center: {lat: addressLat, lng: addressLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
-  
-  var marker = new google.maps.Marker({
-            position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
-            map: map
           });
 
-  var myCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.5,
-      strokeWeight: 2,
-      fillOpacity: 0,
-      map: map,
-      center: {lat: addressLat, lng: addressLong},
-      radius: addressRadius * 1609.344
-    });
   }
+      </script>
+      <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjACt_yqcC7r9_vfje3QHD8Ij_p8M-3Bs&signed_in=true&callback=initMap"></script>
 
-  if ( addressRadius == 2){
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13, 
-    center: {lat: addressLat, lng: addressLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
-  var marker = new google.maps.Marker({
-            position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
-            map: map
-          });
-
-  var myCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.5,
-      strokeWeight: 2,
-      fillOpacity: 0,
-      map: map,
-      center: {lat: addressLat, lng: addressLong},
-      radius: addressRadius * 1609.344
-    });
-  }
-
-  if ( addressRadius == 5){
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: {lat: addressLat, lng: addressLong},
-    disableDefaultUI: true,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    }
-     });
-  var marker = new google.maps.Marker({
-            position: { lat: parseFloat(addressLat), lng: parseFloat(addressLong) },
-            map: map
-          });
-
-  var myCircle = new google.maps.Circle({
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.5,
-      strokeWeight: 2,
-      fillOpacity: 0,
-      map: map,
-      center: {lat: addressLat, lng: addressLong},
-      radius: addressRadius * 1609.344
-    });
-  }
-
-   $.ajax({
-           type: "POST",
-           url : "restaurant.php",
-           data : { latitude : addressLat , longitude : addressLong , radius : addressRadius},
-           success: function(data){
-            processRestaurantData(data);
-          } ,
-            complete: function(){
-            placeRestaurants(map);
-          } 
-        });
-
-}
-    </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjACt_yqcC7r9_vfje3QHD8Ij_p8M-3Bs&signed_in=true&callback=initMap"></script>
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>    
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
 </html>
